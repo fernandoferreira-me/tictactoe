@@ -130,6 +130,7 @@ def minimax(board, depth, is_maximizing):
     """
     Implement minimax algorithm
     """
+
     best_score = -math.inf if is_maximizing else math.inf
     for move in get_available_moves(board):
         board[move] = O_PLAYER if is_maximizing else X_PLAYER
@@ -153,7 +154,11 @@ def get_best_move(board):
     moves = {}
     for move in get_available_moves(board):
         board[move] = O_PLAYER
-        moves[move] = minimax(board, 0, False)
+        score = compute_score(board)
+        if score is not None:
+            return move
+        else:
+            moves[move] = minimax(board, 1, False)
         board[move] = EMPTY
     return min(moves, key=lambda m: moves[m])
 
